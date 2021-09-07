@@ -77,8 +77,20 @@ function modificarHelado(){
 }
 
 function eliminarHelado(){
-    let codDelete=parseInt(prompt("ingrese el codigo del helado a eliminar"));
-    vHelados.splice(codDelete-1, 1);
+    let mensaje= "INGRESE EL CODIGO DEL HELADO A ELIMINAR \n\n";
+        for (let i = 0; i < vHelados.length; i++) {
+        mensaje += `id: ${i+1} nombre: ${vHelados[i].name} \n`;
+    }
+    let codDelete= parseInt(prompt(mensaje));
+    let helDele= vHelados[codDelete-1].name;
+    let confirm = window.confirm(`esta seguro que desea eliminar el helado ${helDele}`);
+    if (confirm) {
+        vHelados.splice(codDelete-1, 1);
+        alert("se ha eliminado el helado con exito");
+    }
+    else{ 
+        mostrarMenu();
+    }
 }
 
 function mostrarInventario(){
@@ -89,9 +101,31 @@ function mostrarInventario(){
     alert(mensaje);
 }
 
-realizarVenta(){
-
+function realizarVenta() {
+  let mensaje = "Escriba el número correspondiente al helado a vender: \n";
+  for (let i = 0; i < vHelados.length; i++) {
+    mensaje += `${i}: ${vHelados[i].name}, precio: ${vHelados[i].price}`;
+  }
+  const index = prompt(mensaje);
+  const quantity = parseInt(prompt("Escriba la cantidad a vender"));
+  const helado = vHelados[index];
+  const total = helado.price * quantity;
+  const aceptar = window.confirm(
+    `Desea hacer esta compra por valor de: ${total}?`
+  );
+  if (aceptar) {
+    vVentas.push({
+      codigo: index,
+      name: helado.name,
+      quantity,
+      total: total
+    });
+    alert("Compra realizada!");
+  } else {
+    alert("Ha cancelado la compra.");
+  }
 }
+
 
 function cerrarSesion() {
     let result = window.confirm(`desea cerrar la sesion?`);
